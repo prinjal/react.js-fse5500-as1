@@ -13,22 +13,23 @@ describe('createUser', () => {
   };
 
   // setup test before running test
-  beforeAll(() => {
+  beforeAll(async () => {
     // remove any/all users to make sure we create it in the test
-    return deleteUsersByUsername(ripley.username);
-  })
+    return await deleteUsersByUsername(ripley.username);
+  });
 
   // clean up after test runs
-  afterAll(() => {
+  afterAll(async () => {
     // remove any data we created
-    return deleteUsersByUsername(ripley.username);
-  })
+    return await deleteUsersByUsername(ripley.username);
+  });
+
 
   test('can insert new users with REST API', async () => {
     // insert new user in the database
     const newUser = await createUser(ripley);
 
-    // verify inserted user's properties match parameter user
+    // verify inserted user's properties match parameter user 
     expect(newUser.username).toEqual(ripley.username);
     expect(newUser.password).toEqual(ripley.password);
     expect(newUser.email).toEqual(ripley.email);
@@ -45,15 +46,15 @@ describe('deleteUsersByUsername', () => {
   };
 
   // setup the tests before verification
-  beforeAll(() => {
-    // insert the sample user we then try to remove
-    return createUser(sowell);
-  });
+  // insert the sample user we then try to remove
+  beforeAll(async () => {
+    await createUser(sowell);
+  })
 
   // clean up after test runs
-  afterAll(() => {
+  afterAll(async () => {
     // remove any data we created
-    return deleteUsersByUsername(sowell.username);
+    await deleteUsersByUsername(sowell.username);
   })
 
   test('can delete users from REST API by username', async () => {
@@ -65,7 +66,7 @@ describe('deleteUsersByUsername', () => {
   });
 });
 
-describe('findUserById',  () => {
+describe('findUserById', () => {
   // sample user we want to retrieve
   const adam = {
     username: 'adam_smith',
@@ -80,7 +81,7 @@ describe('findUserById',  () => {
   });
 
   // clean up after ourselves
-  afterAll(() => {
+  afterAll( () => {
     // remove any data we inserted
     return deleteUsersByUsername(adam.username);
   });
@@ -105,7 +106,7 @@ describe('findUserById',  () => {
 });
 
 
-describe('findAllUsers',  () => {
+describe('findAllUsers', () => {
 
   // sample users we'll insert to then retrieve
   const usernames = [
@@ -115,20 +116,18 @@ describe('findAllUsers',  () => {
   // setup data before test
   beforeAll(() =>
     // insert several known users
-    usernames.map(username =>
-      createUser({
-        username,
-        password: `${username}123`,
-        email: `${username}@stooges.com`
-      })
+    usernames.map(username => createUser({
+      username,
+      password: `${username}123`,
+      email: `${username}@stooges.com`
+    })
     )
   );
 
   // clean up after ourselves
   afterAll(() =>
     // delete the users we inserted
-    usernames.map(username =>
-      deleteUsersByUsername(username)
+    usernames.map(async username => await deleteUsersByUsername(username)
     )
   );
 
