@@ -138,7 +138,7 @@ describe('can retrieve all tuits with REST API', () => {
     mapTuitString.map(async tuit => {
       await createTuit(sowell.uniqueId,
         {
-          tuit: `${tuit} + ${sowell.uniqueId}`
+          tuit: `${tuit}`
         }
       );
     })
@@ -158,10 +158,11 @@ describe('can retrieve all tuits with REST API', () => {
     const tuitsWeInserted = findTuit.filter(
       tuit => mapTuitString.indexOf(tuit.tuit) >= 0);
 
+
     tuitsWeInserted.forEach(tuit => {
       const tuitName = mapTuitString.find(tuitName => tuitName === tuit.tuit);
       expect(tuit.tuit).toEqual(tuitName);
-      mapTuitId.push(tuitsWeInserted._id);
+      mapTuitId.push(tuit._id);
     });
 
 
