@@ -136,7 +136,11 @@ describe('can retrieve all tuits with REST API', () => {
     sowell.uniqueId = user._id;
 
     mapTuitString.map(async tuit => {
-      await createTuit(sowell.uniqueId, `${tuit} + ${sowell.uniqueId}`);
+      await createTuit(sowell.uniqueId,
+        {
+          tuit: `${tuit} + ${sowell.uniqueId}`
+        }
+      );
     })
   });
 
