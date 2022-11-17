@@ -2,6 +2,7 @@ import * as service from "../../services/auth-service.ts"
 import {Link, Route, Routes, useLocation, useNavigate} from "react-router-dom";
 import { useState, useEffect } from "react";
 import MyTuits from "./my-tuits.js";
+import MyLikes from "./my-likes";
 import { profile, logout } from "../../services/auth-service.ts";
 
 const Profile = () => {
@@ -29,14 +30,19 @@ const Profile = () => {
         Logout</button>
         <ul className="mt-4 nav nav-pills nav-fill">
                             <li className="nav-item">
-                                <Link to="/profile/mytuits">
-                                    Tuits</Link>
+                                <Link to="/profile/mylikes">
+                                    Likes</Link>
                             </li>
         </ul>
+        {/* <Link to="/profile/mylikes">
+        Likes</Link> */}
+
 
         {profile.username &&
                     <Routes>
                         <Route path="/mytuits" element={<MyTuits/>}/>
+                        <Route path="/mylikes"
+               element={<MyLikes/>}/>
                     </Routes>
                 }
 

@@ -15,6 +15,8 @@ function Navigation() {
     {label: 'Lists', icon: 'fa-list', path: '/lists'},
     {label: 'Profile', icon: 'fa-user', path: '/profile'},
     {label: 'My Tuits', icon: 'fa-list', path: '/mytuits'},
+    {label: 'My Likes', icon: 'fa-hashtag', path: '/mylikes'},
+    {label: 'My Dislikes', icon: 'fa-hashtag', path: '/mydislikes'},
     {label: 'Movies', icon: 'fa-user', path: '/movies'},
     {label: 'More', icon: 'fa-circle-ellipsis', path: '/more'},
     {label: 'Login', icon: 'fa-user', path: '/login'},
