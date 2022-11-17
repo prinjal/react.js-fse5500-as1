@@ -1,6 +1,6 @@
 import React from "react";
 import './tuits.css';
-import Tuit from "./tuit";
+import Tuit from "./tuit.js";
 
 function Tuits({tuits = [], deleteTuit}) {
     return (

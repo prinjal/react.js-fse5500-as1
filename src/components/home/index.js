@@ -1,74 +1,112 @@
-import React from "react";
-import Tuits from "../tuits";
+import React, { useEffect, useState } from "react";
+import Tuits from "../tuits/index";
 import * as service from "../../services/tuits-service";
-import {useEffect, useState} from "react";
-import {useLocation, useParams} from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
+import axios from "axios";
 
 const Home = () => {
   const location = useLocation();
-  const {uid} = useParams();
+  const { uid } = useParams();
+  const [isLoggedIn, setLoggedIn] = useState(false);
   const [tuits, setTuits] = useState([]);
-  const [tuit, setTuit] = useState('');
+  const [tuit, setTuit] = useState("");
+  //set image state
+  const [images, setImages] = useState([]);
+  const [imageIds, setImageIds] = useState([]);
+
   const userId = uid;
-  const findTuits = () => {
-    if(uid) {
-      return service.findTuitByUser(uid)
-        .then(tuits => setTuits(tuits))
-    } else {
-      return service.findAllTuits()
-        .then(tuits => setTuits(tuits))
-    }
-  }
+  // const isUserLoggedIn = () =>
+  //   security_service.profile().then((user) => {
+  //     if (user) {
+  //       setLoggedIn(true);
+  //     } else {
+  //       setLoggedIn(false);
+  //     }
+  //   });
+  const findTuits = () =>
+    service.findAllTuits().then((tuits) => setTuits(tuits));
+  //useEffect(isUserLoggedIn);
   useEffect(() => {
     let isMounted = true;
-    findTuits()
-    return () => {isMounted = false;}
+    findTuits();
+    return () => {
+      isMounted = false;
+    };
   }, []);
-  const createTuit = () =>
-      service.createTuit(userId, {tuit})
-          .then(findTuits)
-  const deleteTuit = (tid) =>
-      service.deleteTuit(tid)
-          .then(findTuits)
-  return(
+
+  const uploadImage = () => {
+    const formData = new FormData();
+    images.forEach((f) => formData.append("images", f.file));
+    formData.append("enctype", "multipart/form-data");
+    return axios
+      .post(`${process.env.REACT_APP_BASE_URL}/api/tuits/image/upload`, formData, {
+        headers: {
+          "content-type": "multipart/form-data",
+        },
+      })
+      .then((response) => {
+        const imageIds = response.data.map((res) => {
+          return res.public_id;
+        });
+        setImageIds(imageIds);
+        let draftTuit = { tuit: tuit };
+        draftTuit["image"] = imageIds;
+        service.createTuitByUser("me", draftTuit).then(findTuits);
+      });
+  };
+
+  const createTuit = () => {
+    if (images.length > 0) {
+      uploadImage();
+    } else {
+      service.createTuitByUser("me", { tuit }).then(findTuits);
+    }
+  };
+
+  return (
     <div className="ttr-home">
       <div className="border border-bottom-0">
         <h4 className="fw-bold p-2">Home Screen</h4>
-        {
-          uid &&
-          <div className="d-flex">
-            <div className="p-2">
-              <img className="ttr-width-50px rounded-circle"
-                   src="../images/nasa-logo.jpg"/>
-            </div>
-            <div className="p-2 w-100">
-              <textarea
-                  onChange={(e) =>
-                      setTuit(e.target.value)}
-                placeholder="What's happening?"
-                className="w-100 border-0"></textarea>
-              <div className="row">
-                <div className="col-10 ttr-font-size-150pc text-primary">
-                  <i className="fas fa-portrait me-3"></i>
-                  <i className="far fa-gif me-3"></i>
-                  <i className="far fa-bar-chart me-3"></i>
-                  <i className="far fa-face-smile me-3"></i>
-                  <i className="far fa-calendar me-3"></i>
-                  <i className="far fa-map-location me-3"></i>
-                </div>
-                <div className="col-2">
-                  <a onClick={createTuit}
-                     className={`btn btn-primary rounded-pill fa-pull-right
-                                  fw-bold ps-4 pe-4`}>
+        <div className="d-flex">
+          <div className="p-2">
+            <img
+              className="ttr-width-50px rounded-circle"
+              src="../images/nasa-logo.jpg"
+            />
+          </div>
+          <div className="p-2 w-100">
+            <textarea
+              style={{ fontFamily: "twemoji" }}
+              value={tuit}
+              onChange={(e) => setTuit(e.target.value)}
+              placeholder="What's happening?"
+              className="w-100 border-0"
+            />
+            <div className="row">
+              <div className="col-10 ttr-font-size-150pc text-primary">
+                
+                <i className="far fa-video me-3" />
+                <i className="far fa-bar-chart me-3" />
+                <i className="far fa-calendar me-3" />
+                <i className="far fa-map-location me-3" />
+              </div>
+              <div className="col-2">
+                {(
+                  <a
+                    onClick={createTuit}
+                    className={`btn btn-primary rounded-pill fa-pull-right
+                                fw-bold ps-4 pe-4`}
+                  >
                     Tuit
                   </a>
-                </div>
+                )}
               </div>
             </div>
           </div>
-        }
+        </div>
       </div>
-      <Tuits tuits={tuits} deleteTuit={deleteTuit}/>
+      {<Tuits tuits={tuits} refreshTuits={findTuits} />}
+      <div></div>
     </div>
   );
 };

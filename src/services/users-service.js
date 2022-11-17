@@ -1,5 +1,5 @@
 import axios from "axios";
-const BASE_URL = "http://fse5500nodejs-env.eba-6fh6tzhm.us-east-1.elasticbeanstalk.com";
+const BASE_URL = "http://localhost:8080"//"http://fse5500nodejs-env.eba-6fh6tzhm.us-east-1.elasticbeanstalk.com";
 // const BASE_URL = "https://software-engineering-node-fa22.herokuapp.com/api";
 //const BASE_URL = "http://localhost:8080";
 
