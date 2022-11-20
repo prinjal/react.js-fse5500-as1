@@ -7,6 +7,6 @@ const api = axios.create({
  withCredentials: true
 });
 
-export const userTogglesTuitLikes = (uid, tid) =>
-   api.put(`${USERS_API}/${uid}/likes/${tid}`)
+export const userTogglesTuitLikes = async (uid, tid) =>
+   await api.put(`${USERS_API}/${uid}/likes/${tid}`)
        .then(response => response.data);

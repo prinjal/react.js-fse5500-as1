@@ -84,7 +84,7 @@ const Home = () => {
             />
             <div className="row">
               <div className="col-10 ttr-font-size-150pc text-primary">
-                
+
                 <i className="far fa-video me-3" />
                 <i className="far fa-bar-chart me-3" />
                 <i className="far fa-calendar me-3" />
@@ -105,7 +105,7 @@ const Home = () => {
           </div>
         </div>
       </div>
-      {<Tuits tuits={tuits} refreshTuits={findTuits} />}
+      {<Tuits tuits={tuits} refreshTuits={findTuits} deleteTuit={service.deleteTuit} />}
       <div></div>
     </div>
   );
