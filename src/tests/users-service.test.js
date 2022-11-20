@@ -15,7 +15,7 @@ describe('createUser', () => {
   // setup test before running test
   beforeAll(async () => {
     // remove any/all users to make sure we create it in the test
-    return await deleteUsersByUsername(ripley.username);
+    await deleteUsersByUsername(ripley.username);
   });
 
   // clean up after test runs
@@ -28,7 +28,6 @@ describe('createUser', () => {
   test('can insert new users with REST API', async () => {
     // insert new user in the database
     const newUser = await createUser(ripley);
-
     // verify inserted user's properties match parameter user 
     expect(newUser.username).toEqual(ripley.username);
     expect(newUser.password).toEqual(ripley.password);

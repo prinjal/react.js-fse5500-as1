@@ -105,9 +105,9 @@ const Home = () => {
           </div>
         </div>
       </div>
-      {<Tuits tuits={tuits} refreshTuits={findTuits} deleteTuit={service.deleteTuit} />}
+      { <Tuits tuits={tuits} refreshTuits={findTuits} deleteTuit={service.deleteTuit} />}
       <div></div>
-    </div>
+    </div >
   );
 };
 export default Home;
