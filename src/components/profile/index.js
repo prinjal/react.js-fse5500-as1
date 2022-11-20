@@ -1,9 +1,9 @@
-import * as service from "../../services/auth-service.ts"
+import * as service from "../../services/auth-service.js"
 import {Link, Route, Routes, useLocation, useNavigate} from "react-router-dom";
 import { useState, useEffect } from "react";
 import MyTuits from "./my-tuits.js";
 import MyLikes from "./my-likes";
-import { profile, logout } from "../../services/auth-service.ts";
+import { profile, logout } from "../../services/auth-service.js";
 
 const Profile = () => {
 
