@@ -1,5 +1,5 @@
 import axios from "axios";
-const BASE_URL = "http://localhost:8080"
+const BASE_URL = "http://fse5500nodejs-env.eba-xyptnjbh.us-east-1.elasticbeanstalk.com/";
 
 const AUTH_API = `${BASE_URL}/api/auth`
 
