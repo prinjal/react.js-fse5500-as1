@@ -1,6 +1,6 @@
 import {useNavigate} from "react-router-dom";
 import {useState} from "react";
-import * as service from "../../services/auth-service.ts";
+import * as service from "../../services/auth-service.js";
 
 export const Login = () => {
   const [loginUser, setLoginUser] = useState({});
